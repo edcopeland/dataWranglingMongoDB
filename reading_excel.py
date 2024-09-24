@@ -24,59 +24,27 @@ def parse_file(datafile):
     workbook = xlrd.open_workbook(datafile)
     sheet = workbook.sheet_by_index(0)
 
+    coast_values = sheet.col_values(1, 1, sheet.nrows)
+    times = sheet.col_values(0, 1, sheet.nrows)
 
-    ### example on how you can get the data
-    #sheet_data = [[sheet.cell_value(r, col) for col in range(sheet.ncols)] for r in range(sheet.nrows)]
-
-    ### other useful methods:
-    # print "\nROWS, COLUMNS, and CELLS:"
-    # print "Number of rows in the sheet:", 
-    # print sheet.nrows
-    # print "Type of data in cell (row 3, col 2):", 
-    # print sheet.cell_type(3, 2)
-    # print "Value in cell (row 3, col 2):", 
-    # print sheet.cell_value(3, 2)
-    # print "Get a slice of values in column 3, from rows 1-3:"
-    # print sheet.col_values(3, start_rowx=1, end_rowx=4)
-
-    # print "\nDATES:"
-    # print "Type of data in cell (row 1, col 0):", 
-    # print sheet.cell_type(1, 0)
-    # exceltime = sheet.cell_value(1, 0)
-    # print "Time in Excel format:",
-    # print exceltime
-    # print "Convert time to a Python datetime tuple, from the Excel float:",
-    # print xlrd.xldate_as_tuple(exceltime, 0)
-    
-  
-    
-    data = {
-            'maxtime': (0, 0, 0, 0, 0, 0),
-            'maxvalue': 0,
-            'mintime': (0, 0, 0, 0, 0, 0),
-            'minvalue': 0,
-            'avgcoast': 0
-    }
-    data['minvalue'] = sheet.col_values(1, 1, 2)
+    min_index = max_index = 0
     total_coast = 0
-    for i in range(1,sheet.nrows):
-        nxt_cell_val = sheet.cell_value(i, 1)
-        total_coast += nxt_cell_val
-        if nxt_cell_val > data['maxvalue'] :
-            data['maxvalue'] = nxt_cell_val
-            exceltime = sheet.cell_value(i, 0)
-            data['maxtime'] = xlrd.xldate_as_tuple(exceltime, 0)
-            
-        if nxt_cell_val < data['minvalue']:
-            data['minvalue'] = nxt_cell_val
-            exceltime = sheet.cell_value(i, 0)
-            data['mintime'] = xlrd.xldate_as_tuple(exceltime, 0)
-    
-    data['avgcoast'] = total_coast/sheet.nrows
-    coast_val_list = sheet.col_values(1, 1, sheet.nrows)
-    coast_val_list.sort()
-   
-    
+
+    for i, value in enumerate(coast_values[1:], 1):
+        total_coast += value
+        if value < coast_values[min_index]:
+            min_index = i
+        elif value > coast_values[max_index]:
+            max_index = i
+
+    data = {
+        'maxtime': xlrd.xldate_as_tuple(times[max_index], 0),
+        'maxvalue': coast_values[max_index],
+        'mintime': xlrd.xldate_as_tuple(times[min_index], 0),
+        'minvalue': coast_values[min_index],
+        'avgcoast': total_coast / len(coast_values)
+    }
+
     return data
 
 
