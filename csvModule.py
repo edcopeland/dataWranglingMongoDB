@@ -23,13 +23,11 @@ DATAFILE = "745090.csv"
 def parse_file(datafile):
     name = ""
     data = []
-    with open(datafile,'rb') as f:
+    with open(datafile,'r',newline='') as f:
         data_reader = csv.reader(f)
-        name = data_reader.next()[1]
-        header = data_reader.next()
-        for row in list(data_reader)[0:]:
-            data.append(row)
-        # print(data[0][1])
+        name = next(data_reader)[1]
+        header = next(data_reader)
+        data =  list(data_reader)
   
     # Do not change the line below
     return (name, data)
