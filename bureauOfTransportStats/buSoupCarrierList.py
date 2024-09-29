@@ -16,7 +16,7 @@ only. You will not be able to to actually use it from within the Udacity web UI.
 """
 
 from bs4 import BeautifulSoup
-html_page = "options.html"
+html_page = "data/options.html"
 
 
 def extract_carriers(page):

@@ -1,0 +1,9 @@
+This exercise is from the udacity data wrangling with mongodb course.  The objective is to extract airport
+data from the Bureau of Transportation Statistics (https://www.transtats.bts.gov/Data_Elements.aspx?Data=2). 
+
+The dataWrangling procedure for achieving this is as follows :
+
+1 - Build a list of Carrier values
+2 - Build a list of Airport values
+3 - Make a HTTP Request to download all of the data as seperate html files
+4 - Parse the datafiles to store the data in json format
