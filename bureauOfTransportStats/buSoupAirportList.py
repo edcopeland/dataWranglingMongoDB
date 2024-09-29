@@ -10,7 +10,7 @@ given file.
 """
 
 from bs4 import BeautifulSoup
-html_page = "data/options.html"
+html_page = "bureauOfTransportStats/data/options.html"
 
 
 def extract_airports(page):

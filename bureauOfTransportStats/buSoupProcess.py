@@ -34,7 +34,8 @@ from zipfile import ZipFile
 import os
 html = "FL-ATL.html"
 
-datadir = "data"
+datadir = "bureauOfTransportStats/data"
+html_file = "bureauOfTransportStats/data/FL-ATL.html"
 
 
 # def open_zip(datadir):
