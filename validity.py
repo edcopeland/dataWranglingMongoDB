@@ -17,14 +17,21 @@ You can write helper functions for checking the data and writing the files, but 
 'process_file' with 3 arguments (inputfile, output_good, output_bad).
 """
 import csv
-import pprint
-import re
+
 
 INPUT_FILE = 'autos.csv'
 OUTPUT_GOOD = 'autos-valid.csv'
 OUTPUT_BAD = 'FIXME-autos.csv'
 # regex for year
 YEAR_REGEX = r'^\d{4}$' # needs to be a string!!!
+
+def write_file(output_file, output_list,header):
+    with open(output_file, "w") as f:
+        writer = csv.DictWriter(f, delimiter=",", fieldnames= header)
+        writer.writeheader()
+        for row in output_list:
+            writer.writerow(row)
+    
 
 def process_file(input_file, output_good, output_bad):
     good_list = []
@@ -37,8 +44,6 @@ def process_file(input_file, output_good, output_bad):
         
    
     for line in unsorted_data:
-        # - check if the field "productionStartYear" contains a year
-        # print (line.get('productionStartYear', '').strip() )
         
        if len(line.get('URI').split('/')) > 1 and line.get('URI').split('/')[2] == 'dbpedia.org':
             production_start_year = line.get('productionStartYear', '').strip()
@@ -53,19 +58,9 @@ def process_file(input_file, output_good, output_bad):
             else:
                 bad_list.append(line)
          
-  
-    with open(output_good, "w") as g:
-        writer = csv.DictWriter(g, delimiter=",", fieldnames= header)
-        writer.writeheader()
-        for row in good_list:
-            writer.writerow(row)
-            
-    with open(output_bad, "w") as b:
-        writer = csv.DictWriter(b, delimiter=",", fieldnames= header)
-        writer.writeheader()
-        for row in bad_list:
-            writer.writerow(row)           
-            
+    write_file(OUTPUT_GOOD,good_list,header)
+    write_file(OUTPUT_BAD,bad_list,header)
+                 
 
 def test():
 
