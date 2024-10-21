@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
-html_page = "bureauOfTransportStats/data/page_source.html"
+html_page = "data/page_source.html"
 
 
 def extract_data(page):
@@ -24,7 +24,7 @@ def extract_data(page):
         
     data['viewstate'] = vs['value']
     data['eventvalidation'] = ev["value"]
-    print(data)
+    # print(data)
 
     return data
 
