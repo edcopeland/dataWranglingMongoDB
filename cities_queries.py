@@ -2,8 +2,9 @@
 """
 Your task is to write a query that will return all cities
 that are founded in 19st century.
-Please modify only 'range_query' function, as only that will be taken into account.
 
+convert founding date from string to date
+use range query to find cities founded in 19th century
 
 """
 
