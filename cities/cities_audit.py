@@ -23,8 +23,8 @@ methods :
 
 """
 
-CITIES = 'cities.csv'  
-json_file_path = 'cities.json'
+CITIES = 'cities/cities.csv'  
+json_file_path = 'cities/cities.json'
 
 client = MongoClient("mongodb://localhost:27017")
 db = client.testDB

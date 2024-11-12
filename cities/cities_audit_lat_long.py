@@ -24,7 +24,7 @@ Changes to "process_file" function will not be taken into account for grading.
 import csv
 import pprint
 
-CITIES = 'cities.csv'
+CITIES = 'cities/cities.csv'
 
 
 def check_loc(point, lat, longi):

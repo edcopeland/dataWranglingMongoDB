@@ -3,7 +3,7 @@ import csv
 import json
 import pprint
 
-CITIES = 'cities.csv'
+CITIES = 'cities/cities.csv'
 
 
 def fix_area(area):

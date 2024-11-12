@@ -18,7 +18,7 @@ import codecs
 import csv
 import pprint
 
-CITIES = 'cities.csv'
+CITIES = 'cities/cities.csv'
 
 
 def fix_name(name):

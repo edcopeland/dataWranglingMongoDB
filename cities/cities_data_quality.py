@@ -33,7 +33,7 @@ import csv
 import json
 import pprint
 
-CITIES = 'cities.csv'
+CITIES = 'cities/cities.csv'
 
 FIELDS = ["name", "timeZone_label", "utcOffset", "homepage", "governmentType_label",
           "isPartOf_label", "areaCode", "populationTotal", "elevation",
