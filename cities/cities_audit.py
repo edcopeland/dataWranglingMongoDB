@@ -45,11 +45,10 @@ def audit_file(filename):
     """
 
     data = {"cities":[]}
-    audit_field = "areaCode"
     unique_keys = set()
     null_key_counts = {}
     null_filtered_fields = set()
-    columns = 0
+    row_count = 0
 
     with open(filename, "r") as f:
         reader = csv.DictReader(f)
@@ -58,43 +57,43 @@ def audit_file(filename):
         for _ in range(3):
             next(reader)
 
-        # Processing file
+        # Processing each line in the file
         for line in reader:
-            columns += 1
+            row_count += 1
             data['cities'].append(line)
             
             unique_keys.update(line.keys())
-           
+           # for each field in this line
             for key, value in line.items():
                 if key not in null_key_counts:
                     # Initialize counts for this key
                     null_key_counts[key] = {"null": 0, "non-null": 0}
 
-                # Count null and non-null values
+                # Count null and non-null values for each field name
                 if value == 'NULL' or value is None or value == '':
                     null_key_counts[key]["null"] += 1
                 else:
                     null_key_counts[key]["non-null"] += 1
                     
-        
+        # add fields with all null values (null count = row_count) to a set
         for field in null_key_counts:
-            if null_key_counts[field]["null"] == 39:
+            if null_key_counts[field]["null"] == row_count:
                 null_filtered_fields.add(field)
             
        
         
-        # print('Number of fields in first column : ') 
-        # print(len(data['cities'][0].keys()))
-        # print('Number of unique fields : ')
-        # print(len(unique_keys))
-        # print('Number of Columns : ')
-        # print(columns)
-        # print('What are the field names in the csv file, and how many of the cities hold null values for those fields? : ')
-        # pprint.pprint(null_key_counts)
-        # print('What fields have all null values? : ')
-        # pprint.pprint(len(null_filtered_fields))
+        print('Number of fields in first row : ') 
+        print(len(data['cities'][0].keys()))
+        print('Number of unique fields : ')
+        print(len(unique_keys))
+        print('Number of Rows : ')
+        print(row_count)
+        print('What are the field names in the csv file, and how many of the cities hold null values for those fields? : ')
+        pprint.pprint(null_key_counts)
+        print('What fields have all null values? : ')
+        pprint.pprint(null_filtered_fields)
         
-        # removing null fields from the data
+        # remove fields with no values from the data
         for line in data['cities']:
                 for field in null_filtered_fields:
                     if field in line:
@@ -117,8 +116,6 @@ def create_json_file(data):
     Returns:
         None
     
-    
-    
     """
      # save the filtered data to a json file
     with open(json_file_path, 'w', encoding='utf-8') as json_file:
@@ -138,9 +135,8 @@ def populate_mongo_db(data):
     
     Prints the number of fields in the collection and the inserted document's ID
     
-    
-    
     """
+    
     cities_collection = db['cities']
  
     result = cities_collection.insert_many(data['cities'])
@@ -216,7 +212,7 @@ if __name__ == "__main__":
     
     """
     # audit the city data - removing consistently empty fields
-    # data = audit_file(CITIES)
+    data = audit_file(CITIES)
     
     # create_json_file(data)
     
